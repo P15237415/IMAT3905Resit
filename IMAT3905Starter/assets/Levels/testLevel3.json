@@ -1,0 +1,7 @@
+{
+  "GameObjects": [
+      {"name": "gnd", "model": "planeZ8x6.obj", "position": [0.0,0.0,0.0]},  
+      {"name": "1", "model": "squashedSphere.obj", "position": [0.0,0.0,6.0]},
+      {"name": "2", "model": "squashedSphere.obj", "position": [0.0,0.0,0.1]}	  
+  ]
+}
