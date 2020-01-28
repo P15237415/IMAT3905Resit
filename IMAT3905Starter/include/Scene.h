@@ -7,6 +7,7 @@
 #include "PlayerCharacter.h"
 #include "IEngineCore.h"
 
+
 // imgui
 #include <imgui.h>
 #include "imgui_impl_glfw_gl3.h"
@@ -16,6 +17,11 @@
 
 //class Model;
 class ModelManager;
+namespace FMOD
+{
+	class Sound;
+}
+typedef FMOD::Sound* SoundHandle;
 
 
 class Scene
@@ -45,6 +51,8 @@ public:
 
 private:
 
+	IEngineCore * m_pEngineCore;
+
 	bool m_levelLoaded{ false };
 
 	int m_playerIndex{ 1 };
@@ -64,4 +72,9 @@ private:
 	int m_mouseButtons;
 	int m_oldMouseButtons;
 	bool m_mouseEnabled{ false };
+
+	bool m_hasBackgroundAudio;
+	bool m_shouldLoopBackgroundAudio;
+	std::string m_sceneBackgroundAudioPath;
+	SoundHandle m_backgroundAudioHandle;
 };

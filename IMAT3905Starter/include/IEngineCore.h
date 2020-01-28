@@ -15,6 +15,7 @@ constexpr std::chrono::milliseconds dt(16ms);
 class Model;
 class CameraComponent;
 class Game;
+class AudioEngine;
 
 class IEngineCore
 {
@@ -36,5 +37,8 @@ public:
 
 	// new for mouse
 	virtual void getMouseState(double& mouseX, double& mouseY, int& mouseButtons) = 0;
+
+	//Audio
+	virtual AudioEngine* GetAudioEngine() = 0;
 
 };

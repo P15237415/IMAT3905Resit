@@ -3,6 +3,7 @@
 #include "IEngineCore.h"
 #include "Model.h"
 #include "Game.h"
+#include "AudioEngine.h"
 #include "TransformComponent.h"
 #include "ColourComponent.h"
 #include "ModelComponent.h"
@@ -19,8 +20,26 @@
 
 Scene::Scene(std::string filename, ModelManager* theModelManager, IEngineCore* engineCore) : m_theModelManager(theModelManager)
 {
+	m_pEngineCore = engineCore;
+
+	m_shouldLoopBackgroundAudio = false;
+	m_hasBackgroundAudio = false;
+
 	m_playerBackground = new BackgroundColourGameObject();
 	m_levelLoaded = loadLevelJSON(filename);
+
+	//Begin background music
+	if (m_hasBackgroundAudio)
+	{
+		AudioEngine* pAudioEngine = engineCore->GetAudioEngine();
+		if (pAudioEngine)
+		{
+			m_backgroundAudioHandle = nullptr;
+			pAudioEngine->createSound(&m_backgroundAudioHandle, m_sceneBackgroundAudioPath.c_str());
+			pAudioEngine->playSound(m_backgroundAudioHandle, m_shouldLoopBackgroundAudio);
+		}
+	}
+	
 
 	// todo - deal with errors here?
 
@@ -34,7 +53,14 @@ Scene::Scene(std::string filename, ModelManager* theModelManager, IEngineCore* e
 
 Scene::~Scene()
 {
-
+	if (m_backgroundAudioHandle != nullptr)
+	{
+		AudioEngine* pAudioEngine = m_pEngineCore->GetAudioEngine();
+		if (pAudioEngine)
+		{
+			pAudioEngine->releaseSound(m_backgroundAudioHandle);
+		}
+	}
 }
 
 
@@ -261,6 +287,16 @@ bool Scene::loadLevelJSON(std::string levelJSONFile)
 			v_gameObjects.push_back(new StaticEnvironmentObject(model, position, orientation));
 		}
 	}
+
+	//Load background audio
+	const Json::Value bgAudio = root["BackgroundAudio"];
+	if (!bgAudio.isNull())
+	{
+		m_hasBackgroundAudio = true;
+		m_sceneBackgroundAudioPath = bgAudio["path"].asString();
+		m_shouldLoopBackgroundAudio = bgAudio["loop"].asBool();
+	}
+
 	return loadOK;
 }
 

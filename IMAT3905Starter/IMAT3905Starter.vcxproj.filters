@@ -90,6 +90,9 @@
     <ClCompile Include="src\imgui_impl_glfw_gl3.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="src\AudioEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BackgroundColourGameObject.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="include\stb_truetype.h">
       <Filter>Header Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AudioEngine.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

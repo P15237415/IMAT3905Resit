@@ -3,6 +3,7 @@
 
 #include "GLFW_EngineCore.h"
 #include "Game.h"
+#include "AudioEngine.h"
 #include <fstream>
 #include <sstream>
 #include <glm/detail/type_vec3.hpp>
@@ -22,15 +23,28 @@ double GLFW_EngineCore::m_mouseX;
 double GLFW_EngineCore::m_mouseY;
 int GLFW_EngineCore::m_mouseButtons;
 
+GLFW_EngineCore::GLFW_EngineCore()
+{
+	m_audioEngine = nullptr;
+	m_audioEngine = new AudioEngine();
+	if (m_audioEngine != nullptr)
+	{
+		m_audioEngine->initialize();
+	}
+}
+
 GLFW_EngineCore::~GLFW_EngineCore()
 {
+	if (m_audioEngine != nullptr)
+	{
+		delete m_audioEngine;
+	}
 	// cleanup
 	glfwTerminate();
 }
 
 bool GLFW_EngineCore::initWindow(int width, int height, std::string windowName)
-{
-	
+{	
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -86,7 +100,6 @@ bool GLFW_EngineCore::initWindow(int width, int height, std::string windowName)
 
 bool GLFW_EngineCore::runEngine(Game* game)			// was Game&
 {
-
 	// Setup ImGui binding
 	ImGui_ImplGlfwGL3_Init(m_window, false);		// true for gwfw callbacks
 
@@ -118,6 +131,11 @@ bool GLFW_EngineCore::runEngine(Game* game)			// was Game&
 		// check if we have set up any input handling
 		game->getInputHandler()->handleInputs(m_keyBuffer);
 
+		//update the audio engine
+		if (m_audioEngine != nullptr)
+		{
+			m_audioEngine->update();
+		}
 		game->update(0.1f); // update game logic
 		game->render(); // prepare game to send info to the renderer in engine core
 
@@ -566,4 +584,9 @@ void GLFW_EngineCore::getMouseState(double& mouseX, double& mouseY, int& mouseBu
 	mouseX = m_mouseX;
 	mouseY = m_mouseY;
 	mouseButtons = m_mouseButtons;	
+}
+
+AudioEngine * GLFW_EngineCore::GetAudioEngine()
+{
+	return m_audioEngine;
 }

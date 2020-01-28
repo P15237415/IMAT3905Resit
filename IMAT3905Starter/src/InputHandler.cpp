@@ -37,6 +37,6 @@ void InputHandler::handleInputs(const std::vector<bool>& keyBuffer)
 		{
 			mapEntry.second->execute(*m_playerCube);
 		}
-	}
+	} 
 
 }

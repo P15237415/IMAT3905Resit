@@ -2,6 +2,7 @@
 
 #include "ModelManager.h"
 #include "Scene.h"
+#include "AudioEngine.h"
 
 //needed for test code
 #include "GameObject.h"

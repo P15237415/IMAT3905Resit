@@ -16,10 +16,12 @@
 
 class Model;
 class Game;
+class AudioEngine;
 
 class GLFW_EngineCore : public IEngineCore
 {
 public:
+	GLFW_EngineCore();
 	~GLFW_EngineCore() override;
 
 	bool initWindow(int width, int height, std::string windowName) override;
@@ -35,12 +37,16 @@ public:
 
 	void getMouseState(double& mouseX, double& mouseY, int& mouseButtons) override;
 
+	AudioEngine* GetAudioEngine();
+
 
 private:
 	GLFWwindow* m_window;
 	GLuint m_defaultShaderProgram;
 	GLuint m_fontShaderProgram;
 
+	//Audio Engine
+	AudioEngine* m_audioEngine;
 
 	// added PC 
 	static double m_mouseX;
@@ -83,8 +89,5 @@ private:
 	void setDefaultShaders();
 	void initCubeModel();
 	void setupDefaultFont();
-
-
-
 };
 
