@@ -13,10 +13,15 @@ public:
 	void createSound(SoundHandle* ppSound, const char* pFile);
 	void playSound(SoundHandle pSound, bool bLoop = false);
 	void releaseSound(SoundHandle pSound);
+	void createSound3D(SoundHandle* pppSound);
+	void createReverb();
+	void releaseReverb();
 	void update();
 private:
 	FMOD::System *m_pSystem;
 	FMOD::Channel *m_pChannel = nullptr;
+	FMOD::Reverb3D *m_pReverb;
+	FMOD_REVERB_PROPERTIES properties = FMOD_PRESET_CONCERTHALL;
 	FMOD_RESULT result;
 	unsigned int version;
 	bool bLoop = false;
